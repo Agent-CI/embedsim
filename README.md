@@ -122,7 +122,7 @@ export EMBEDSIM_OPENAI_API_KEY=sk-...
 
 ```bash
 # Install with dev dependencies
-pip install -e ".[dev]"
+uv sync --all-extras
 
 # Run tests and benchmarks
 make test
