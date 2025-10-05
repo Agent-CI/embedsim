@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "embedsim"
-version = "0.1.0"
+version = "0.1.1"
 description = "A Python library for computing Embedding Similarity scores using embeddings"
 authors = [
     {name = "Agent CI", email = "hello@agentci.com"},
