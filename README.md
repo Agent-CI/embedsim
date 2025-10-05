@@ -88,6 +88,34 @@ Compute coherence scores for a collection of texts.
 
 This centroid-based approach gives you a score per text showing how well it fits with the group's semantic theme.
 
+## Configuration
+
+### Runtime Configuration
+
+Modify the config object directly in your code:
+
+```python
+import embedsim
+
+# Change default model at runtime
+embedsim.config.model = "jinaai/jina-embeddings-v2-base-en"
+
+# Now all calls use the new default
+score = embedsim.pairsim("hello", "hi")
+```
+
+### Environment Variables
+
+Alternatively, set configuration via environment variables:
+
+```bash
+# Set default model
+export EMBEDSIM_MODEL=jinaai/jina-embeddings-v2-base-en
+
+# Use custom OpenAI key
+export EMBEDSIM_OPENAI_API_KEY=sk-...
+```
+
 ## Models
 
 `embedsim` supports both OpenAI's API and local sentence-transformer models.
@@ -97,25 +125,15 @@ See [MODELS.md](MODELS.md) for detailed model comparison and selection guide.
 **OpenAI (default, requires API key):**
 ```python
 # Best for production - fast, accurate, no model downloads
-score = embedsim.pairsim(text_a, text_b)  # uses openai-3-small
-scores = embedsim.groupsim(texts, model_id="openai-3-large")
+score = embedsim.pairsim(text_a, text_b)  # uses openai/text-embedding-3-small
+scores = embedsim.groupsim(texts, model_id="openai/text-embedding-3-large")
 ```
 
 **Local models (privacy, offline):**
 ```python
 # Run entirely on your machine
-score = embedsim.pairsim(text_a, text_b, model_id="jina-v2-base")
-scores = embedsim.groupsim(texts, model_id="all-MiniLM-L6-v2")
-```
-
-## Environment Configuration
-
-```bash
-# Set default model
-export EMBEDSIM_MODEL=jina-v2-base
-
-# Use custom OpenAI key
-export EMBEDSIM_OPENAI_API_KEY=sk-...
+score = embedsim.pairsim(text_a, text_b, model_id="jinaai/jina-embeddings-v2-base-en")
+scores = embedsim.groupsim(texts, model_id="sentence-transformers/all-MiniLM-L6-v2")
 ```
 
 ## Development

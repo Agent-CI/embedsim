@@ -8,36 +8,36 @@ Based on comprehensive testing across coherent texts, mixed topics, outlier dete
 
 | Model | Tests Passed | Avg Score | Avg Range | Best For |
 |-------|--------------|-----------|-----------|----------|
-| **e5-large** | 7/11 | 0.4983 | 0.0114 | **Highest coherence, lowest variance** |
-| **bge-large** | 8/11 | 0.4455 | 0.0301 | **Best overall pass rate and consistency** |
-| **openai-3-small** | 11/11 | 0.3489 | 0.0512 | **Perfect pass rate, distinguishing mixed topics** |
-| **openai-3-large** | 7/11 | 0.3507 | 0.0439 | **High accuracy, good topic distinction** |
-| **jina-v2-base** | 3/11 | 0.3750 | 0.0729 | **Long documents, struggles with coherence** |
-| **all-MiniLM-L6-v2** | 5/11 | 0.3413 | 0.0724 | **Fast development, high variance** |
+| **intfloat/e5-large-v2** | 7/11 | 0.4983 | 0.0114 | **Highest coherence, lowest variance** |
+| **BAAI/bge-large-en-v1.5** | 8/11 | 0.4455 | 0.0301 | **Best overall pass rate and consistency** |
+| **openai/text-embedding-3-small** | 11/11 | 0.3489 | 0.0512 | **Perfect pass rate, distinguishing mixed topics** |
+| **openai/text-embedding-3-large** | 7/11 | 0.3507 | 0.0439 | **High accuracy, good topic distinction** |
+| **jinaai/jina-embeddings-v2-base-en** | 3/11 | 0.3750 | 0.0729 | **Long documents, struggles with coherence** |
+| **sentence-transformers/all-MiniLM-L6-v2** | 5/11 | 0.3413 | 0.0724 | **Fast development, high variance** |
 
 **Key Findings:**
-- **e5-large** and **bge-large** excel at maintaining high coherence scores with minimal variance
-- **openai-3-small** achieves perfect pass rate and is best at distinguishing mixed/unrelated topics
-- **jina-v2-base** shows lower coherence scores despite long context window capabilities
-- **all-MiniLM-L6-v2** useful for rapid prototyping but less reliable for production
+- **intfloat/e5-large-v2** and **BAAI/bge-large-en-v1.5** excel at maintaining high coherence scores with minimal variance
+- **openai/text-embedding-3-small** achieves perfect pass rate and is best at distinguishing mixed/unrelated topics
+- **jinaai/jina-embeddings-v2-base-en** shows lower coherence scores despite long context window capabilities
+- **sentence-transformers/all-MiniLM-L6-v2** useful for rapid prototyping but less reliable for production
 
 
 ## OpenAI Models (API-based)
 
-### openai-3-small (text-embedding-3-small)
+### openai/text-embedding-3-small
 
 Excels at distinguishing between mixed and unrelated topics, making it ideal when you need to differentiate diverse content. With cost-effective pricing at $0.02 per million tokens and excellent reliability across test scenarios, it's the best choice for production use where topic discrimination matters more than raw similarity scores. Choose this when you need API-based processing with cost efficiency.
 
-- Model ID: `openai-3-small`
+- Model ID: `openai/text-embedding-3-small`
 - Embedding dim: 1,536
 - Max tokens: 8,191
 - Cost: $0.02 per million tokens
 
-### openai-3-large (text-embedding-3-large)
+### openai/text-embedding-3-large
 
-OpenAI's highest accuracy embedding model delivers strong topic distinction with larger embedding dimensions (3,072). Significantly outperforms ada-002 with 54.9% on MIRACL (vs 31.4%) and 64.6% on MTEB (vs 61.0%). Best for critical applications where accuracy justifies the premium cost of $0.13 per million tokens - about 6.5x more expensive than openai-3-small.
+OpenAI's highest accuracy embedding model delivers strong topic distinction with larger embedding dimensions (3,072). Significantly outperforms ada-002 with 54.9% on MIRACL (vs 31.4%) and 64.6% on MTEB (vs 61.0%). Best for critical applications where accuracy justifies the premium cost of $0.13 per million tokens - about 6.5x more expensive than openai/text-embedding-3-small.
 
-- Model ID: `openai-3-large`
+- Model ID: `openai/text-embedding-3-large`
 - Embedding dim: 3,072
 - Max tokens: 8,191
 - Cost: $0.13 per million tokens
@@ -46,35 +46,35 @@ OpenAI's highest accuracy embedding model delivers strong topic distinction with
 
 ## Sentence-Transformer Models (Local)
 
-### e5-large (intfloat/e5-large-v2)
+### intfloat/e5-large-v2
 
 Achieves the highest coherence scores (avg 0.4983) with the lowest variance (0.0114) across all models, making it exceptional for detecting similarity in coherent texts. The most consistent local model for applications where texts should score high similarity. Choose this when you need maximum coherence detection and consistency in similarity scores, with the tradeoff that it may not distinguish mixed topics as effectively.
 
-- Model ID: `e5-large`
+- Model ID: `intfloat/e5-large-v2`
 - Embedding dim: 1,024
 - Max tokens: 1,024
 
-### bge-large (BAAI/bge-large-en-v1.5)
+### BAAI/bge-large-en-v1.5
 
 Most reliable local model across diverse scenarios, balancing strong coherence scores (avg 0.4455) with reasonable variance (0.0301). Excellent for retrieval tasks and general-purpose use when you need a well-tested, proven baseline. The best overall local option when you want consistent performance across different types of content without the tradeoffs of more specialized models.
 
-- Model ID: `bge-large`
+- Model ID: `BAAI/bge-large-en-v1.5`
 - Embedding dim: 1,024
 - Max tokens: 1,024
 
-### all-MiniLM-L6-v2
+### sentence-transformers/all-MiniLM-L6-v2
 
 Lightweight and fast model ideal for rapid prototyping and development. With only 384 dimensions, it runs quickly for testing and iteration, though with higher variance (0.0724) and limited context window of 256 tokens (≈1000 characters). Choose this for fast local inference during development when you can tolerate less reliable results and shorter context limits.
 
-- Model ID: `all-MiniLM-L6-v2`
+- Model ID: `sentence-transformers/all-MiniLM-L6-v2`
 - Embedding dim: 384
 - Max tokens: 256
 
-### jina-v2-base (jinaai/jina-embeddings-v2-base-en)
+### jinaai/jina-embeddings-v2-base-en
 
 Offers the longest context window for local models at 8,192 tokens, purpose-built for chunked long documents. However, it struggles with coherence thresholds (avg score 0.3750) and outlier detection in benchmarks. Choose this when you need very long context windows for document processing and coherence thresholds are not critical to your application, or when local processing is required for privacy.
 
-- Model ID: `jina-v2-base`
+- Model ID: `jinaai/jina-embeddings-v2-base-en`
 - Embedding dim: 768
 - Max tokens: 8,192
 

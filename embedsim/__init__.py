@@ -2,11 +2,12 @@
 
 from importlib.metadata import version
 
-from .embedsim import groupsim, pairsim
+from .embedsim import config, groupsim, pairsim
 
 __version__ = version("embedsim")
 
 __all__ = [
+    "config",
     "groupsim",
     "pairsim",
 ]
