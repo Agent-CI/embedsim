@@ -13,7 +13,7 @@ class EmbedSimSettings(BaseSettings):
     )
 
     # Default model to use
-    model: str = "openai-3-small"
+    model: str = "openai/text-embedding-3-small"
 
     # OpenAI API key (can also use OPENAI_API_KEY)
     openai_api_key: str | None = None

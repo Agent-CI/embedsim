@@ -19,32 +19,32 @@ class ModelConfig(TypedDict):
 
 # Model configurations mapping model names to backend classes and settings
 MODEL_CONFIGS: dict[str, ModelConfig] = {
-    "all-MiniLM-L6-v2": {
+    "sentence-transformers/all-MiniLM-L6-v2": {
         "backend_class": SentenceTransformerBackend,
         "model_name": "sentence-transformers/all-MiniLM-L6-v2",
         "max_seq_length": 256,
     },
-    "jina-v2-base": {
+    "jinaai/jina-embeddings-v2-base-en": {
         "backend_class": SentenceTransformerBackend,
         "model_name": "jinaai/jina-embeddings-v2-base-en",
         "max_seq_length": 8192,
     },
-    "bge-large": {
+    "BAAI/bge-large-en-v1.5": {
         "backend_class": SentenceTransformerBackend,
         "model_name": "BAAI/bge-large-en-v1.5",
         "max_seq_length": 1024,
     },
-    "e5-large": {
+    "intfloat/e5-large-v2": {
         "backend_class": SentenceTransformerBackend,
         "model_name": "intfloat/e5-large-v2",
         "max_seq_length": 1024,
     },
-    "openai-3-small": {
+    "openai/text-embedding-3-small": {
         "backend_class": OpenAIBackend,
         "model_name": "text-embedding-3-small",
         "max_seq_length": 8191,
     },
-    "openai-3-large": {
+    "openai/text-embedding-3-large": {
         "backend_class": OpenAIBackend,
         "model_name": "text-embedding-3-large",
         "max_seq_length": 8191,
