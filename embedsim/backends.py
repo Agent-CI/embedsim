@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-import os
 import numpy as np
 
 
@@ -83,7 +82,10 @@ class OpenAIBackend(EmbeddingBackend):
                 "Install with: pip install openai"
             )
 
-        if not os.getenv("OPENAI_API_KEY") and not os.getenv("EMBEDSIM_OPENAI_API_KEY"):
+        from . import config
+
+        api_key = config.get_openai_api_key()
+        if not api_key:
             raise ValueError(
                 "OpenAI API key not found. Set either OPENAI_API_KEY or "
                 "EMBEDSIM_OPENAI_API_KEY environment variable."
@@ -91,9 +93,6 @@ class OpenAIBackend(EmbeddingBackend):
 
         self.model_name = model_name
         self.max_seq_length = max_seq_length
-
-        # Use EMBEDSIM_OPENAI_API_KEY if available, otherwise fall back to OPENAI_API_KEY
-        api_key = os.getenv("EMBEDSIM_OPENAI_API_KEY") or os.getenv("OPENAI_API_KEY")
         self.client = openai.OpenAI(api_key=api_key)
 
         # Model-specific configurations

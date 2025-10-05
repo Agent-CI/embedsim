@@ -1,10 +1,10 @@
 from typing import TypedDict
-import os
 import numpy as np
 
 from .backends import SentenceTransformerBackend, OpenAIBackend, EmbeddingBackend
+from ._config import EmbedSimSettings
 
-DEFAULT_MODEL = os.getenv("EMBEDSIM_MODEL", "openai-3-small")
+config = EmbedSimSettings()
 
 _backend_cache: dict[tuple, EmbeddingBackend] = {}
 
@@ -80,8 +80,8 @@ def _get_backend(model_id: str, **config) -> EmbeddingBackend:
 def pairsim(
     text_a: str,
     text_b: str,
-    model_id: str = DEFAULT_MODEL,
-    **config,
+    model_id: str | None = None,
+    **kwargs,
 ) -> float:
     """Compute similarity between two texts.
 
@@ -89,7 +89,7 @@ def pairsim(
         text_a: First text
         text_b: Second text
         model_id: Embedding model to use (defaults to EMBEDSIM_MODEL env var or "openai-3-small")
-        **config: Optional configuration overrides
+        **kwargs: Optional configuration overrides
 
     Returns:
         Similarity score (0-1, higher = more similar)
@@ -99,7 +99,9 @@ def pairsim(
         >>> print(score)  # 0.98
     """
     # Get backend and generate embeddings
-    backend = _get_backend(model_id, **config)
+    if model_id is None:
+        model_id = config.model
+    backend = _get_backend(model_id, **kwargs)
     embeddings = backend.encode([text_a, text_b])
 
     # Normalize and compute cosine similarity
@@ -110,8 +112,8 @@ def pairsim(
 
 def groupsim(
     texts: list[str],
-    model_id: str = DEFAULT_MODEL,
-    **config,
+    model_id: str | None = None,
+    **kwargs,
 ) -> list[float]:
     """Compute similarity of texts using centroid-based scoring.
 
@@ -121,7 +123,7 @@ def groupsim(
     Args:
         texts: List of texts to analyze (minimum 2)
         model_id: Embedding model to use (defaults to EMBEDSIM_MODEL env var or "openai-3-small")
-        **config: Optional configuration overrides
+        **kwargs: Optional configuration overrides
 
     Returns:
         List of similarity scores (floats), one per input text
@@ -132,7 +134,9 @@ def groupsim(
         >>> print(scores)  # [0.92, 0.88, 0.45]
     """
     # Get backend and generate embeddings
-    backend = _get_backend(model_id, **config)
+    if model_id is None:
+        model_id = config.model
+    backend = _get_backend(model_id, **kwargs)
     embeddings = backend.encode(texts)
 
     # Normalize embeddings
